@@ -1,6 +1,7 @@
 const http = require('http');
 const fs = require('fs');
 const path = require('path');
+const WebSocket = require('ws');
 
 const port = process.env.PORT || 3000;
 
@@ -9,7 +10,7 @@ let server = http.createServer(function (request, response) {
 
     var filePath = '.' + request.url;
     if (filePath == './') {
-        filePath = './index.html';
+        filePath = './public/index.html';
     } else {
       filePath = './public/' + filePath;
     }
@@ -58,3 +59,117 @@ let server = http.createServer(function (request, response) {
 server.listen(port, () => {
   console.log(`Server running at port ${port}`);
 });
+
+//web socket server
+const wss = new WebSocket.Server({ server });
+
+let rooms = [];
+
+wss.on('connection', (ws) => {
+  console.log('client connected');
+  ws.on('message', (req) => {
+    try {
+      //TODO
+      req = JSON.parse(req);
+      switch (req.type) {
+      case 'connection': {
+	connect(ws, req.roomNumber);
+      }}
+    } catch (e) {
+      console.log(e);
+    }
+  });
+  ws.on('close', (e) => {
+    try {
+      // TODO
+      console.log(e);
+    } catch (e) {
+      console.log(e);
+    }
+  });
+});
+
+function connect(ws, roomNumber) {
+  if (! /^\d+$/.exec(roomNumber)) {//check whether input is a number
+    ws.send(JSON.stringify({
+      type: 'roomNumberError'
+    }));
+    return;
+  }
+
+  let room = roomExists(rooms, roomNumber);
+
+  if (!room) {
+    room = new Room( roomNumber,
+		     [new User(ws, 'X')],
+		     // TODO chess board
+		   );
+    rooms.push(room);
+    // ws.send(JSON.stringify({
+    //   type: 'create room',
+    //   room: room.hideWs()
+    // }));
+  } else {
+    if (room.users.length === 1) {
+      let updatedRoom = room.update({
+	users: [room.users[0], new User(ws, room.users[0].color === 'white' ? 'black' : 'white')]
+      });
+
+      rooms = rooms.filter((r) => r.number !== room.number);
+      room = updatedRoom;
+      rooms.push(room);
+      room.users[0].ws.send(JSON.stringify({ //an opponent is joining the client's room
+	type: 'second user access',
+	room: room.hideWs()
+      }));
+
+      room.users[1].ws.send(JSON.stringify( //client is joining an opponent's room
+	{
+	  type: 'join existing room',
+	  room: room.hideWs()
+	}
+      ));
+    } else {
+      ws.send(JSON.stringify({
+	type: 'room full'
+      }));
+    }
+  }
+}
+
+function roomExists(rooms, number) {
+  return rooms.filter((room) => {
+    return room.number === number;
+  })[0];
+};
+class Room {
+  constructor(number, users) {
+    this.number = number;
+    this.users = users;
+  }
+  update(config) {
+    return Object.assign(new Room(), this, config);
+  }
+  hideWs () { // create copy of room without ws data
+    return new Room( this.number,
+		     this.users
+		     ?
+		     this.users.length === 1
+		     ?
+		     [ {ws: 'hidden', mark: this.users[0].mark}]
+		     :
+		     [
+		       {ws: 'hidden', mark: this.users[0].mark},
+		       {ws: 'hidden', mark: this.users[1].mark}
+		     ]
+		     : this.users,
+		   );
+  }
+}
+
+class User {
+  constructor(ws, color) {
+    this.ws = ws;
+    this.color = color;
+  }
+}
