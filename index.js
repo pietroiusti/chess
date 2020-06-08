@@ -81,8 +81,7 @@ wss.on('connection', (ws) => {
   });
   ws.on('close', (e) => {
     try {
-      // TODO
-      console.log(e);
+      disconnectUser(ws);
     } catch (e) {
       console.log(e);
     }
@@ -105,10 +104,10 @@ function connect(ws, roomNumber) {
 		     // TODO chess board
 		   );
     rooms.push(room);
-    // ws.send(JSON.stringify({
-    //   type: 'create room',
-    //   room: room.hideWs()
-    // }));
+    ws.send(JSON.stringify({
+      type: 'createRoom',
+      room: room.hideWs()
+    }));
   } else {
     if (room.users.length === 1) {
       let updatedRoom = room.update({
@@ -119,19 +118,19 @@ function connect(ws, roomNumber) {
       room = updatedRoom;
       rooms.push(room);
       room.users[0].ws.send(JSON.stringify({ //an opponent is joining the client's room
-	type: 'second user access',
+	type: 'secondUserAccess',
 	room: room.hideWs()
       }));
 
       room.users[1].ws.send(JSON.stringify( //client is joining an opponent's room
 	{
-	  type: 'join existing room',
+	  type: 'joinExistingRoom',
 	  room: room.hideWs()
 	}
       ));
     } else {
       ws.send(JSON.stringify({
-	type: 'room full'
+	type: 'roomFull'
       }));
     }
   }
@@ -171,5 +170,25 @@ class User {
   constructor(ws, color) {
     this.ws = ws;
     this.color = color;
+  }
+}
+
+function disconnectUser(ws) {
+  for (let i = 0; i < rooms.length; i++) {
+    if (rooms[i].users.length === 1) {
+      if (rooms[i].users[0].ws === ws) {
+	rooms.splice(i, 1);
+      }
+    } else {
+      rooms[i] = rooms[i].update({
+	users: rooms[i].users.filter((u) => !(u.ws === ws)),
+      });
+
+      //rooms[i] = rooms[i].update({board: Board.empty()});
+      rooms[i].users[0].ws.send(JSON.stringify({
+	type: 'userLeft',
+	room: rooms[i].hideWs()
+      }));
+    }
   }
 }
