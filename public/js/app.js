@@ -34,11 +34,19 @@
       switch (action.type) {
       case 'createRoom': {
 	console.log('createRoom');
+
+	document.querySelector('#waitingMessage').style.display = 'block';
+
+	color = 'white';
+
 	// TODO show waiting message
+
+
 	break;
       }
       case 'secondUserAccess': {
 	console.log('secondUserAccess');
+	document.querySelector('#waitingMessage').style.display = 'none';
 	// TODO render board received from server
 	let board = Chessboard('myBoard', {
 	  position: 'start',

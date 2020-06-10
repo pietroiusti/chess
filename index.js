@@ -69,7 +69,6 @@ wss.on('connection', (ws) => {
   console.log('client connected');
   ws.on('message', (req) => {
     try {
-      //TODO
       req = JSON.parse(req);
       switch (req.type) {
       case 'connection': {
@@ -117,12 +116,13 @@ function connect(ws, roomNumber) {
       rooms = rooms.filter((r) => r.number !== room.number);
       room = updatedRoom;
       rooms.push(room);
-      room.users[0].ws.send(JSON.stringify({ //an opponent is joining the client's room
+      // tell client already connected that another client is connecting
+      room.users[0].ws.send(JSON.stringify({
 	type: 'secondUserAccess',
 	room: room.hideWs()
       }));
 
-      room.users[1].ws.send(JSON.stringify( //client is joining an opponent's room
+      room.users[1].ws.send(JSON.stringify(
 	{
 	  type: 'joinExistingRoom',
 	  room: room.hideWs()
@@ -141,6 +141,7 @@ function roomExists(rooms, number) {
     return room.number === number;
   })[0];
 };
+
 class Room {
   constructor(number, users) {
     this.number = number;
