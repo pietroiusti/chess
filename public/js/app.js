@@ -1,5 +1,6 @@
 (() => {
 
+  let board;
   let color;
   let roomNumber;
 
@@ -39,32 +40,33 @@
 
 	color = 'white';
 
-	// TODO show waiting message
-
-
 	break;
       }
       case 'secondUserAccess': {
 	console.log('secondUserAccess');
 	document.querySelector('#waitingMessage').style.display = 'none';
-	// TODO render board received from server
-	let board = Chessboard('myBoard', {
+
+	board = Chessboard('myBoard', {
 	  position: 'start',
 	  draggable: true,
 	  dropOffBoard: 'snapback',
-	  pieceTheme: 'img/chesspieces/wikipedia/{piece}.png'
+	  pieceTheme: 'img/chesspieces/wikipedia/{piece}.png',
+	  onChange: onChange
 	});
+
 	break;
       }
       case 'joinExistingRoom': {
 	console.log('joinExistingRoom');
-	// TODO render board received from server
-	let board = Chessboard('myBoard', {
+
+	board = Chessboard('myBoard', {
 	  position: 'start',
 	  draggable: true,
 	  dropOffBoard: 'snapback',
-	  pieceTheme: 'img/chesspieces/wikipedia/{piece}.png'
+	  pieceTheme: 'img/chesspieces/wikipedia/{piece}.png',
+	  onChange: onChange
 	});
+
 	break;
       }
       case 'roomNumberError': {
@@ -76,6 +78,13 @@
       }
       }
     };
+  }
+
+  function onChange(oldPos, newPos) {
+    console.log('Position changed:');
+    console.log('Old position: ' + Chessboard.objToFen(oldPos));
+    console.log('New position: ' + Chessboard.objToFen(newPos));
+    console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
   }
 
 })();

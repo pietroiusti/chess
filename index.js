@@ -3,6 +3,8 @@ const fs = require('fs');
 const path = require('path');
 const WebSocket = require('ws');
 
+const { Chess } = require('./chess.js');
+
 const port = process.env.PORT || 3000;
 
 let server = http.createServer(function (request, response) {
@@ -100,7 +102,9 @@ function connect(ws, roomNumber) {
   if (!room) {
     room = new Room( roomNumber,
 		     [new User(ws, 'X')],
+
 		     // TODO chess board
+		     new Chess()
 		   );
     rooms.push(room);
     ws.send(JSON.stringify({
@@ -143,15 +147,17 @@ function roomExists(rooms, number) {
 };
 
 class Room {
-  constructor(number, users) {
+  constructor(number, users, game) {
     this.number = number;
     this.users = users;
+    this.game = game;
   }
   update(config) {
     return Object.assign(new Room(), this, config);
   }
   hideWs () { // create copy of room without ws data
     return new Room( this.number,
+
 		     this.users
 		     ?
 		     this.users.length === 1
@@ -163,6 +169,8 @@ class Room {
 		       {ws: 'hidden', mark: this.users[1].mark}
 		     ]
 		     : this.users,
+
+		     this.game
 		   );
   }
 }
