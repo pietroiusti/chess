@@ -1,5 +1,6 @@
 (() => {
 
+  const game = Chess();
   let board;
   let color;
   let roomNumber;
@@ -46,26 +47,55 @@
 	console.log('secondUserAccess');
 	document.querySelector('#waitingMessage').style.display = 'none';
 
-	board = Chessboard('myBoard', {
-	  position: 'start',
+	// board = Chessboard('myBoard', {
+	//   position: 'start',
+	//   draggable: true,
+	//   dropOffBoard: 'snapback',
+	//   pieceTheme: 'img/chesspieces/wikipedia/{piece}.png',
+	//   onDrop: onDrop
+	// });
+	let config = {
 	  draggable: true,
-	  dropOffBoard: 'snapback',
-	  pieceTheme: 'img/chesspieces/wikipedia/{piece}.png',
-	  onChange: onChange
-	});
+	  position: 'start',
+	  onDragStart: onDragStart,
+	  onDrop: onDrop,
+	  onSnapEnd: onSnapEnd
+	};
+	board = Chessboard('myBoard', config);
+
+	updateStatus();
+
 
 	break;
       }
       case 'joinExistingRoom': {
 	console.log('joinExistingRoom');
 
-	board = Chessboard('myBoard', {
-	  position: 'start',
+	color = 'black';
+
+	// board = Chessboard('myBoard', {
+	//   position: 'start',
+	//   draggable: true,
+	//   dropOffBoard: 'snapback',
+	//   pieceTheme: 'img/chesspieces/wikipedia/{piece}.png',
+	//   onDrop: onDrop
+	// });
+	let config = {
 	  draggable: true,
-	  dropOffBoard: 'snapback',
-	  pieceTheme: 'img/chesspieces/wikipedia/{piece}.png',
-	  onChange: onChange
-	});
+	  position: 'start',
+	  onDragStart: onDragStart,
+	  onDrop: onDrop,
+	  onSnapEnd: onSnapEnd
+	};
+	board = Chessboard('myBoard', config);
+	updateStatus();
+
+
+
+	break;
+      }
+      case 'move': {
+	// TODO: render new board
 
 	break;
       }
@@ -78,13 +108,87 @@
       }
       }
     };
-  }
 
-  function onChange(oldPos, newPos) {
-    console.log('Position changed:');
-    console.log('Old position: ' + Chessboard.objToFen(oldPos));
-    console.log('New position: ' + Chessboard.objToFen(newPos));
-    console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
+    function onDragStart(source, piece, position, orientation) {
+      // do not pick up pieces if the game is over
+      if (game.game_over()) return false;
+
+      // only pick up pieces for the side to move
+      if ((game.turn() === 'w' && piece.search(/^b/) !== -1) ||
+	  (game.turn() === 'b' && piece.search(/^w/) !== -1)) {
+	return false;
+      } 
+    }
+    
+    function onDrop(source, target, piece, newPos, oldPos, orientation) {
+      let move = game.move({
+	from: source,
+	to: target,
+	promotion: 'q' // ALWAYS PROMOTE TO QUEEN?
+      });
+
+      // illegal move
+      if (move === null) return 'snapback';
+
+      updateStatus();
+
+      // console.log('Source: ' + source);
+      // console.log('Target: ' + target);
+      // console.log('Piece: ' + piece);
+      // console.log('New position: ' + Chessboard.objToFen(newPos));
+      // console.log('Old position: ' + Chessboard.objToFen(oldPos));
+      // console.log('Orientation: ' + orientation);
+      // console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
+
+      // ws.send(JSON.stringify({
+      // 	type: 'move',
+      // 	roomNumber: roomNumber,
+      // 	source: source,
+      // 	target: target,
+      // 	piece: piece,
+      // 	newPos: newPos,
+      // 	oldPos: oldPos,
+      // 	orientation: orientation
+      // }));
+    }
+
+    // ?????
+    // update the board position after the piece snap
+    // for castling, en passant, pawn promotion
+    function onSnapEnd() {
+      board.position(game.fen());
+    }
+
+    function updateStatus () {
+      let status = '';
+
+      let moveColor = 'White';
+      if (game.turn() === 'b') {
+	moveColor = 'Black';
+      }
+
+      // checkmate?
+      if (game.in_checkmate()) {
+	status = 'Game over, ' + moveColor + ' is in checkmate.';
+      }
+
+      // draw?
+      else if (game.in_draw()) {
+	status = 'Game over, drawn position';
+      }
+
+      // game still on
+      else {
+	status = moveColor + ' to move';
+
+	// check?
+	if (game.in_check()) {
+	  status += ', ' + moveColor + ' is in check';
+	}
+      }
+
+      console.log(status);
+    }
   }
 
 })();
