@@ -2,7 +2,6 @@ const http = require('http');
 const fs = require('fs');
 const path = require('path');
 const WebSocket = require('ws');
-
 const { Chess } = require('./chess.js');
 
 const port = process.env.PORT || 3000;
@@ -75,6 +74,30 @@ wss.on('connection', (ws) => {
       switch (req.type) {
       case 'connection': {
 	connect(ws, req.roomNumber);
+	break;
+      }
+      case 'move': {
+	console.log('move!');
+	console.log('Source:' + req.source);
+	console.log('Target:' + req.target);
+
+	let room = roomExists(rooms, req.roomNumber);
+
+	if (room) {
+	  // TODO: update Chess
+
+	  // TODO: send updated Chess to clients
+	  for (let i = 0; i < room.users.length; i++) {
+	    room.users[i].ws.send(JSON.stringify({
+	      type: 'move',
+	      source: req.source,
+	      target: req.target
+	    }));
+	  }
+	} else {
+	  console.log('???');
+	}
+	break;
       }}
     } catch (e) {
       console.log(e);
@@ -102,8 +125,6 @@ function connect(ws, roomNumber) {
   if (!room) {
     room = new Room( roomNumber,
 		     [new User(ws, 'X')],
-
-		     // TODO chess board
 		     new Chess()
 		   );
     rooms.push(room);

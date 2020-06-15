@@ -47,13 +47,6 @@
 	console.log('secondUserAccess');
 	document.querySelector('#waitingMessage').style.display = 'none';
 
-	// board = Chessboard('myBoard', {
-	//   position: 'start',
-	//   draggable: true,
-	//   dropOffBoard: 'snapback',
-	//   pieceTheme: 'img/chesspieces/wikipedia/{piece}.png',
-	//   onDrop: onDrop
-	// });
 	let config = {
 	  draggable: true,
 	  position: 'start',
@@ -64,7 +57,6 @@
 	board = Chessboard('myBoard', config);
 
 	updateStatus();
-
 
 	break;
       }
@@ -73,13 +65,6 @@
 
 	color = 'black';
 
-	// board = Chessboard('myBoard', {
-	//   position: 'start',
-	//   draggable: true,
-	//   dropOffBoard: 'snapback',
-	//   pieceTheme: 'img/chesspieces/wikipedia/{piece}.png',
-	//   onDrop: onDrop
-	// });
 	let config = {
 	  draggable: true,
 	  position: 'start',
@@ -88,13 +73,16 @@
 	  onSnapEnd: onSnapEnd
 	};
 	board = Chessboard('myBoard', config);
+
 	updateStatus();
-
-
 
 	break;
       }
       case 'move': {
+	console.log('move!');
+	console.log('Source:' + action.source);
+	console.log('Target:' + action.target);
+
 	// TODO: render new board
 
 	break;
@@ -131,6 +119,8 @@
       if (move === null) return 'snapback';
 
       updateStatus();
+
+      updateServerGame(source, target, roomNumber);
 
       // console.log('Source: ' + source);
       // console.log('Target: ' + target);
@@ -189,6 +179,16 @@
 
       console.log(status);
     }
+
+    function updateServerGame(source, target, roomNumber) {
+      ws.send(JSON.stringify({
+	type: 'move',
+	source: source,
+	target: target,
+	roomNumber: roomNumber
+      }));
+    }
+
   }
 
 })();
