@@ -84,6 +84,7 @@
 	console.log('Target:' + action.target);
 
 	// TODO: render new board
+	board.position(action.fen);
 
 	break;
       }

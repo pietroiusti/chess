@@ -85,13 +85,17 @@ wss.on('connection', (ws) => {
 
 	if (room) {
 	  // TODO: update Chess
+	  let move = room.game.move({
+	    from: req.source,
+	    to: req.target,
+	    promotion: 'q'
+	  });
 
-	  // TODO: send updated Chess to clients
+	  // TODO: send updated game to both clients
 	  for (let i = 0; i < room.users.length; i++) {
 	    room.users[i].ws.send(JSON.stringify({
 	      type: 'move',
-	      source: req.source,
-	      target: req.target
+	      fen: room.game.fen()
 	    }));
 	  }
 	} else {
