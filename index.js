@@ -84,8 +84,8 @@ wss.on('connection', (ws) => {
 	let room = roomExists(rooms, req.roomNumber);
 
 	if (room) {
-	  // TODO: update Chess
-	  let move = room.game.move({
+	  // TODO: update game
+	  room.game.move({
 	    from: req.source,
 	    to: req.target,
 	    promotion: 'q'
@@ -95,7 +95,10 @@ wss.on('connection', (ws) => {
 	  for (let i = 0; i < room.users.length; i++) {
 	    room.users[i].ws.send(JSON.stringify({
 	      type: 'move',
-	      fen: room.game.fen()
+	      //game: room.game,
+	      source: req.source,
+	      target: req.target,
+	      //fen: room.game.fen()
 	    }));
 	  }
 	} else {
@@ -218,7 +221,7 @@ function disconnectUser(ws) {
 	users: rooms[i].users.filter((u) => !(u.ws === ws)),
       });
 
-      //rooms[i] = rooms[i].update({board: Board.empty()});
+      //rooms[i] = rooms[i].update({game: new Chess()});
       rooms[i].users[0].ws.send(JSON.stringify({
 	type: 'userLeft',
 	room: rooms[i].hideWs()

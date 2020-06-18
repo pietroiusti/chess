@@ -84,7 +84,12 @@
 	console.log('Target:' + action.target);
 
 	// TODO: render new board
-	board.position(action.fen);
+	game.move({
+	  from: action.source,
+	  to: action.target,
+	  promotion: 'q'
+	});
+	board.position(game.fen());
 
 	break;
       }
@@ -104,8 +109,11 @@
 
       // only pick up pieces for the side to move
       if ((game.turn() === 'w' && piece.search(/^b/) !== -1) ||
-	  (game.turn() === 'b' && piece.search(/^w/) !== -1)) {
+	  (game.turn() === 'b' && piece.search(/^w/) !== -1) ||
+	  (game.turn() === 'w' && color !== 'white') ||
+	  (game.turn() === 'b' && color !== 'black')) {
 	return false;
+
       } 
     }
     
