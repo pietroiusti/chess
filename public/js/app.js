@@ -1,6 +1,6 @@
 (() => {
 
-  const game = Chess();
+  let game = new Chess();
   let board;
   let color;
   let roomNumber;
@@ -79,17 +79,16 @@
 	break;
       }
       case 'move': {
-	console.log('move!');
-	console.log('Source:' + action.source);
-	console.log('Target:' + action.target);
-
-	// TODO: render new board
+	// update game
 	game.move({
 	  from: action.source,
 	  to: action.target,
 	  promotion: 'q'
 	});
+	// render board
 	board.position(game.fen());
+	// update status
+	updateStatus();
 
 	break;
       }
@@ -130,28 +129,8 @@
       updateStatus();
 
       updateServerGame(source, target, roomNumber);
-
-      // console.log('Source: ' + source);
-      // console.log('Target: ' + target);
-      // console.log('Piece: ' + piece);
-      // console.log('New position: ' + Chessboard.objToFen(newPos));
-      // console.log('Old position: ' + Chessboard.objToFen(oldPos));
-      // console.log('Orientation: ' + orientation);
-      // console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
-
-      // ws.send(JSON.stringify({
-      // 	type: 'move',
-      // 	roomNumber: roomNumber,
-      // 	source: source,
-      // 	target: target,
-      // 	piece: piece,
-      // 	newPos: newPos,
-      // 	oldPos: oldPos,
-      // 	orientation: orientation
-      // }));
     }
 
-    // ?????
     // update the board position after the piece snap
     // for castling, en passant, pawn promotion
     function onSnapEnd() {
@@ -187,6 +166,11 @@
       }
 
       console.log(status);
+
+      let statusDiv = document.getElementById('status');
+      statusDiv.textContent = '';
+      let statusTxt = document.createTextNode(status);
+      statusDiv.appendChild(statusTxt);
     }
 
     function updateServerGame(source, target, roomNumber) {
