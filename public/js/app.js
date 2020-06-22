@@ -165,12 +165,13 @@
 	}
       }
 
-      console.log(status);
+      console.log(`status: ${status}`);
 
-      let statusDiv = document.getElementById('status');
-      statusDiv.textContent = '';
-      let statusTxt = document.createTextNode(status);
-      statusDiv.appendChild(statusTxt);
+      document.getElementById('status').style.display = 'block';
+      let statusEl = document.getElementById('statusText');
+      statusEl.textContent = '';
+      let content = document.createTextNode(status);
+      statusEl.appendChild(content);
     }
 
     function updateServerGame(source, target, roomNumber) {

@@ -7,6 +7,10 @@ text-align: center;
     animation: blinker 1.5s step-start infinite;
 }
 
+#status {
+    display: none;
+}
+
 @keyframes blinker {
   50% {
     opacity: 0;
