@@ -129,7 +129,7 @@ function connect(ws, roomNumber) {
 
   if (!room) {
     room = new Room( roomNumber,
-		     [new User(ws, 'X')],
+		     [new User(ws, 'white')],
 		     new Chess()
 		   );
     rooms.push(room);
@@ -188,11 +188,11 @@ class Room {
 		     ?
 		     this.users.length === 1
 		     ?
-		     [ {ws: 'hidden', mark: this.users[0].mark}]
+		     [ {ws: 'hidden', color: this.users[0].color}]
 		     :
 		     [
-		       {ws: 'hidden', mark: this.users[0].mark},
-		       {ws: 'hidden', mark: this.users[1].mark}
+		       {ws: 'hidden', color: this.users[0].color},
+		       {ws: 'hidden', color: this.users[1].color}
 		     ]
 		     : this.users,
 

@@ -41,6 +41,10 @@
 
 	color = 'white';
 
+	document.getElementById('color').textContent = '';
+	let colorText = document.createTextNode(`Your color is ${color}`);
+	document.getElementById('color').appendChild((colorText));
+
 	break;
       }
       case 'secondUserAccess': {
@@ -63,8 +67,6 @@
       case 'joinExistingRoom': {
 	console.log('joinExistingRoom');
 
-	color = 'black';
-
 	let config = {
 	  draggable: true,
 	  position: 'start',
@@ -73,6 +75,12 @@
 	  onSnapEnd: onSnapEnd
 	};
 	board = Chessboard('myBoard', config);
+
+	console.log(`users[0].color: ${action.room.users[0].color}`);
+	color = action.room.users[0].color === 'white' ? 'black' : 'white';
+	document.getElementById('color').textContent = '';
+	let colorText = document.createTextNode(`Your color is ${color}`);
+	document.getElementById('color').appendChild((colorText));
 
 	updateStatus();
 
