@@ -58,7 +58,7 @@
 	  onDrop: onDrop,
 	  onSnapEnd: onSnapEnd
 	};
-	board = Chessboard('myBoard', config);
+	board = Chessboard('board', config);
 
 	updateStatus();
 
@@ -74,7 +74,7 @@
 	  onDrop: onDrop,
 	  onSnapEnd: onSnapEnd
 	};
-	board = Chessboard('myBoard', config);
+	board = Chessboard('board', config);
 
 	console.log(`users[0].color: ${action.room.users[0].color}`);
 	color = action.room.users[0].color === 'white' ? 'black' : 'white';

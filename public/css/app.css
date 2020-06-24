@@ -11,6 +11,10 @@ text-align: center;
     display: none;
 }
 
+#board {
+    margin: 0 auto;
+}
+
 @keyframes blinker {
   50% {
     opacity: 0;
