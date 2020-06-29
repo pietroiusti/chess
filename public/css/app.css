@@ -7,6 +7,10 @@ text-align: center;
     animation: blinker 1.5s step-start infinite;
 }
 
+#roomNumber {
+    display: none;
+}   
+
 #status {
     display: none;
 }

@@ -41,6 +41,11 @@
 
 	color = 'white';
 
+	document.querySelector('#roomNumber').style.display = 'block';
+	document.getElementById('roomNumber').textContent = '';
+	let roomNumberText = document.createTextNode(`Room ${roomNumber}`);
+	document.getElementById('roomNumber').appendChild(roomNumberText);
+
 	document.getElementById('color').textContent = '';
 	let colorText = document.createTextNode(`Your color is ${color}`);
 	document.getElementById('color').appendChild((colorText));
@@ -66,6 +71,11 @@
       }
       case 'joinExistingRoom': {
 	console.log('joinExistingRoom');
+
+	document.querySelector('#roomNumber').style.display = 'block';
+	document.getElementById('roomNumber').textContent = '';
+	let roomNumberText = document.createTextNode(`Room ${roomNumber}`);
+	document.getElementById('roomNumber').appendChild(roomNumberText);
 
 	let config = {
 	  draggable: true,
