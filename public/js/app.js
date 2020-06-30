@@ -114,6 +114,27 @@
 	console.log('Room number error');
 	break;
       }
+      case 'userLeft':{
+	console.log('user left');
+
+	// reset game
+	game = new Chess();
+
+	// render board
+	let config = {
+	  draggable: true,
+	  position: 'start',
+	  onDragStart: onDragStart,
+	  onDrop: onDrop,
+	  onSnapEnd: onSnapEnd
+	};
+	board = Chessboard('board', config);
+
+	// display waiting message
+	document.getElementById('waitingMessage').style.display = "block";
+
+	break;
+      }
       default: {
 	console.log(action);
       }
