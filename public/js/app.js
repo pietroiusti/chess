@@ -37,6 +37,9 @@
       case 'createRoom': {
 	console.log('createRoom');
 
+	let message = document.createTextNode('Waiting for opponent');
+	document.getElementById('waitingMessage').textContent = '';
+	document.getElementById('waitingMessage').appendChild(message);
 	document.querySelector('#waitingMessage').style.display = 'block';
 
 	color = 'white';
@@ -54,6 +57,7 @@
       }
       case 'secondUserAccess': {
 	console.log('secondUserAccess');
+
 	document.querySelector('#waitingMessage').style.display = 'none';
 
 	let config = {
@@ -114,7 +118,7 @@
 	console.log('Room number error');
 	break;
       }
-      case 'userLeft':{
+      case 'userLeft': {
 	console.log('user left');
 
 	// reset game
@@ -131,6 +135,9 @@
 	board = Chessboard('board', config);
 
 	// display waiting message
+	let message = document.createTextNode('Opponent left.\nWaiting for opponent');
+	document.getElementById('waitingMessage').textContent = '';
+	document.getElementById('waitingMessage').appendChild(message);
 	document.getElementById('waitingMessage').style.display = "block";
 
 	break;

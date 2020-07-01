@@ -4,6 +4,7 @@ text-align: center;
 
 #waitingMessage {
     display: none;
+    color: red;
     animation: blinker 1.5s step-start infinite;
 }
 
