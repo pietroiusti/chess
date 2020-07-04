@@ -1,10 +1,22 @@
 {
   "name": "chess",
-  "version": "0.0.0",
-  "private": true,
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
   "scripts": {
-    "start": "node ./bin/www"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/glptrst/chess.git"
+  },
+  "author": "Giulio Pietroiusti",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/glptrst/chess/issues"
+  },
+  "homepage": "https://github.com/glptrst/chess#readme",
   "dependencies": {
     "ws": "^7.3.0"
   }
