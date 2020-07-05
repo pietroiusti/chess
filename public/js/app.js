@@ -142,6 +142,11 @@
 
 	break;
       }
+      case 'roomFull': {
+	document.querySelector('.modal-bg').style.display = '';
+	document.getElementById('error-message').textContent = 'Room full, try another number.';
+	break;
+      }
       default: {
 	console.log(action);
       }
