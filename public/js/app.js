@@ -115,7 +115,8 @@
 	break;
       }
       case 'roomNumberError': {
-	console.log('Room number error');
+	document.querySelector('.modal-bg').style.display = '';
+	document.getElementById('error-message').textContent = 'Please, insert a number';
 	break;
       }
       case 'userLeft': {
