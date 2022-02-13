@@ -9,7 +9,22 @@ const port = process.env.PORT || 3000;
 let server = http.createServer(function (request, response) {
   console.log('request ', request.url);
 
-  var filePath = '.' + request.url;
+  let url;
+  let params;
+  if (request.url.indexOf('?') != -1) {
+    params = request.url.substr(request.url.indexOf('?'), request.url.length+1);
+    params = new URLSearchParams(params);
+    url = request.url.substr(0, request.url.indexOf('?'));
+  } else {
+    url = request.url;
+  }
+  
+  // console.log(params);
+  // console.log("request.url: "+request.url);
+
+  // console.log("url: " +url);
+
+  var filePath = '.' + url; // request.url;
   if (filePath == './') {
     filePath = './public/index.html';
   } else {
@@ -49,6 +64,7 @@ let server = http.createServer(function (request, response) {
 	response.end('Error: ENOENT: no such file or directory');
       }
       else {
+	console.log(error);
         response.writeHead(500);
         response.end('Sorry, check with the site admin for error: '+error.code+' ..\n');
       }
