@@ -1,0 +1,27 @@
+body {
+text-align: center;
+}
+
+#waitingMessage {
+    display: none;
+    color: red;
+    animation: blinker 1.5s step-start infinite;
+}
+
+#roomNumber {
+    display: none;
+}
+
+#status {
+    display: none;
+}
+
+#board {
+    margin: 0 auto;
+}
+
+@keyframes blinker {
+  50% {
+    opacity: 0;
+  }
+}
