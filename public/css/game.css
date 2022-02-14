@@ -3,7 +3,7 @@ html{
     /* background-image: url(https://www.wallpapertip.com/wmimgs/244-2446040_3d-chess-wallpaper.jpg); */
     background-image: url("chess-image.jpg");
     background-repeat: no-repeat;
-    background-position: center center;
+    background-position: center 10px;
     Background-size: 200%;
     /* Background-size: 1000px 700px; */
     /*background-image: linear-gradient(to left, , #312e2b);*/

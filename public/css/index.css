@@ -2,7 +2,7 @@ html {
   background-color: #312e2b;
   background-image: url("chess-image.jpg");
   background-repeat: no-repeat;
-  background-position: center center;
+  background-position: center 5px;
   Background-size: 200%;
   background-blend-mode: lighten; }
 
