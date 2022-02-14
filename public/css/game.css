@@ -1,27 +1,59 @@
 body {
-text-align: center;
+    background-color: #312e2b;
+    color: #e0dcd1;
+    font-size: 25px;
+    /*font-family: 'Fira Sans', sans-serif;*/
+    font-family: 'Passion One', cursive;
+}
+
+#main {
+    width: 80%;
+    margin: auto;
+    display: flex;
+}
+
+#left {
+  flex:20%;
+}
+
+#center {
+  flex:40%;
+}
+
+#right {
+    flex:20%;
+}
+
+#color {
+    text-align:center;
 }
 
 #waitingMessage {
     display: none;
     color: red;
     animation: blinker 1.5s step-start infinite;
+    text-align: center;
+    margin-bottom: 20px;
 }
 
 #roomNumber {
     display: none;
+    text-align: center;
 }
 
 #status {
     display: none;
+    text-align: center;
+    margin-top: 20px;
 }
 
 #board {
-    margin: 0 auto;
+    margin: auto;
+    margin-top: 50px;
 }
 
 @keyframes blinker {
-  50% {
-    opacity: 0;
-  }
+    50% {
+	opacity: 0;
+    }
 }

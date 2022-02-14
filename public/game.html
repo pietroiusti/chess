@@ -1,19 +1,31 @@
 <head>
   <link rel="stylesheet" href="./css/game.css">
   <link rel="stylesheet" href="./css/chessboard-1.0.0.css">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Passion+One&display=swap" rel="stylesheet">
 </head>
 
 <body>
-  <div id="waitingMessage"></div>
+  <div id="main">
+    <div id="left">
+      <div id="color"></div>
+    </div>
 
-  <div id="board" style="width: 400px"></div>
-  <div id="roomNumber"></div>
-  <div id="color"></div>
-  <div id="status">
-    <label>Status:</label>
-    <div id="statusText"></div>
+    <div id="center">
+      <div id="waitingMessage"></div>
+      <div id="board" style="width: 400px"></div>
+      <div id="status">
+	<label>Status:</label>
+	<div id="statusText"></div>
+      </div>
+    </div>
+
+    <div id="right">
+      <div id="roomNumber"></div>
+    </div>
   </div>
-
 </body>
 
 <script src="/js/chess.js"></script>
