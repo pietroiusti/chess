@@ -1,19 +1,14 @@
 html{
     background-color: #312e2b;
-    /* background-image: url(https://www.wallpapertip.com/wmimgs/244-2446040_3d-chess-wallpaper.jpg); */
-    background-image: url("chess-image.jpg");
     background-repeat: no-repeat;
     background-position: center 10px;
     Background-size: 200%;
-    /* Background-size: 1000px 700px; */
-    /*background-image: linear-gradient(to left, , #312e2b);*/
     background-blend-mode: lighten;
 }
 
 body {
     color: white; /*#e0dcd1;*/
     font-size: 25px;
-    /*font-family: 'Fira Sans', sans-serif;*/
     font-family: 'Passion One', cursive;
 }
 

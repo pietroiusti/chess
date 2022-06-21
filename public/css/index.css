@@ -1,8 +1,7 @@
 html {
   background-color: #312e2b;
-  background-image: url("chess-image.jpg");
   background-repeat: no-repeat;
-  background-position: center 5px;
+  background-position: center center;
   Background-size: 200%;
   background-blend-mode: lighten; }
 
@@ -19,7 +18,6 @@ body {
 .inp {
   position: relative;
   margin: auto;
-  margin-top: 10%;
   width: 100%;
   max-width: 280px;
   border-radius: 3px;
@@ -29,8 +27,8 @@ body {
     top: 20px;
     left: 12px;
     font-size: 16px;
-    color: white;/* rgba(255, 255, 255, 0.5); */
-    font-weight: 700;
+    color: rgba(255, 255, 255, 0.5);
+    font-weight: 500;
     transform-origin: 0 0;
     transform: translate3d(0, 0, 0);
     transition: all .2s ease;
