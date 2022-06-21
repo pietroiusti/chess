@@ -58,6 +58,7 @@
 	let config = {
 	  draggable: true,
 	  position: 'start',
+          orientation: 'white',
 	  onDragStart: onDragStart,
 	  onDrop: onDrop,
 	  onSnapEnd: onSnapEnd
@@ -79,6 +80,7 @@
 	let config = {
 	  draggable: true,
 	  position: 'start',
+          orientation: 'black',
 	  onDragStart: onDragStart,
 	  onDrop: onDrop,
 	  onSnapEnd: onSnapEnd
